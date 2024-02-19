@@ -21,7 +21,6 @@ const toggleTheme = () => {
 };
 
 const themeIconName = computed(() => {
-  console.log(IconDarkModeOn)
   return theme.value === 'light' ? IconDarkModeOff : IconDarkModeOn;
 });
 

@@ -2,6 +2,7 @@
   <div ref="dropdown" class="dropdown">
     <button class="dropdown-btn" @click="toggleDropdown">
       <span>{{ selectedRegion || 'Filter by Region' }}</span>
+      <span v-if="selectedRegion" class="clear-icon" @click.stop="clearSelection">&times;</span>
       <span class="arrow"></span>
     </button>
     <div class="dropdown-content" v-show="isOpen">
@@ -14,9 +15,9 @@
 
 import {onMounted, onUnmounted, ref} from 'vue';
 
-const emit = defineEmits(['on-filter-change'])
+const emit = defineEmits(['on-filter-change']);
 
-const regions = ['Africa', 'America', 'Asia', 'Europe', 'Oceania'];
+const regions = ['Africa', 'Americas', 'Asia', 'Europe', 'Oceania'];
 const isOpen = ref(false);
 const selectedRegion = ref('');
 
@@ -31,6 +32,11 @@ const selectRegion = (region, event) => {
   isOpen.value = false;
 
   emit('on-filter-change', region);
+};
+
+const clearSelection = () => {
+  selectedRegion.value = ''; // Clear the selected region
+  emit('on-filter-change', ''); // Emit the change with an empty value
 };
 
 // Close the dropdown if clicked outside
@@ -57,6 +63,8 @@ onUnmounted(() => {
   display: inline-block;
 
   box-shadow: 0 4px 9px rgba(0, 0, 0, 5%);
+
+  width: 200px;
 }
 
 .dropdown-btn {
@@ -68,14 +76,14 @@ onUnmounted(() => {
   border: none;
   cursor: pointer;
   border-radius: 5px;
-  width: 200px; /* Adjust as needed */
+  width: 100%; /* Adjust as needed */
   text-align: left;
 
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   .arrow {
-    margin-left: auto;
     background: url("@/assets/images/expand-more.svg") no-repeat center center / contain;
     width: 10px;
     height: 6px;
@@ -101,6 +109,26 @@ onUnmounted(() => {
 
 .dropdown-content a:hover {
   background-color: var(--filter-box-highlight);
+}
+
+.clear-icon {
+  cursor: pointer;
+  margin-right: 10px;
+  font-size: 14px; /* Adjust size as needed */
+
+  width: 16px; /* Ensure this is the same as the height */
+  height: 16px; /* Ensure this is the same as the width */
+
+  line-height: 16px; /* Align the '×' character vertically */
+  text-align: center;
+
+  padding: 1px; /* Give some space around the 'x' for a better click area */
+  border-radius: 50%; /* Optional: round shape for the hover effect */
+
+  &:hover {
+    background-color: #e0e0e0; /* A light grey background on hover */
+    color: #333; /* Darker text color to stand out */
+  }
 }
 
 </style>

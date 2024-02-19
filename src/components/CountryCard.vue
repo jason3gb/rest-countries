@@ -1,24 +1,29 @@
 <template>
-  <div class="country-card">
+  <div @click="onCardClick" class="country-card">
     <div class="flag">
       <img :src="country.flags['png']" alt="Flag of {{ country.flags[0] }}"/>
     </div>
 
     <div class="country-info">
-      <h3>{{ country.name.official }}</h3>
+      <h3>{{ country.name }}</h3>
       <span><strong>Population: </strong>{{ country.population }}</span>
       <span><strong>Region: </strong>{{ country.region }}</span>
-      <span><strong>Capital: </strong>{{ country.capital[0] }}</span>
+      <span><strong>Capital: </strong>{{ country.capital }}</span>
     </div>
   </div>
 </template>
 
 <script setup>
 
-defineProps(
+const props = defineProps(
     ['country']
 )
 
+const emit = defineEmits(['on-show-country-detail']);
+
+const onCardClick = () => {
+  emit('on-show-country-detail', props.country);
+}
 
 </script>
 
@@ -35,6 +40,19 @@ defineProps(
 
   display: flex;
   flex-direction: column;
+
+  font-weight: var(--font-weight-light);
+
+  strong {
+    font-weight: var(--font-weight-semi-bold);
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+    transform: translateY(-5px); /* Slightly lift the card */
+  }
 
   .flag {
     width: 100%;

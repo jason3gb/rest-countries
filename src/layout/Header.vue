@@ -12,15 +12,20 @@ import ThemeToggle from "@/components/ThemeToggle.vue";
 <style scoped>
 
 .header {
-  display: flex;
-  align-items: center;
-
-  height: 80px;
-
+  padding: 0 5%;
   background-color: var(--color-navbar);
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 
-  padding: 0 5%;
+  position: fixed;
+  width: 100%;
+  height: var(--navbar-height);
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+  z-index: 100;
+
+  display: flex;
+  align-items: center;
 }
 
 :deep(.theme-toggle) {

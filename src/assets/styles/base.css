@@ -4,8 +4,9 @@
     --mobile-width: 375px;
     --desktop-width: 1440px;
 
-    /* Colors */
+    --navbar-height: 80px;
 
+    /* Colors */
     --dark-blue: hsl(209, 23%, 22%);
     --very-dark-blue: hsl(207, 26%, 17%);
     --black: hsl(200, 15%, 8%);
@@ -15,6 +16,8 @@
     --light-gray: hsl(0, 0%, 95%);
     --very-light-gray: hsl(0, 0%, 98%);
     --white: hsl(0, 0%, 100%);
+
+    --border-gray: hsl(0, 0%, 59%);
 
     /* Typography */
     --homepage-item-font-size: 14px;
@@ -41,6 +44,9 @@
     --color-tool-placeholder: var(--gray);
 
     --filter-box-highlight: var(--light-gray);
+
+    --color-button-color: var(--white);
+    --color-button-text: var(--black);
 }
 
 [data-theme='dark'] {
@@ -54,23 +60,9 @@
     --color-tool-text: var(--white);
 
     --filter-box-highlight: var(--very-dark-blue);
+
+    --color-button-color: var(--dark-blue);
+    --color-button-text: var(--white);
 }
 
-h3 {
-    font-size: 18px;
-    font-weight: 800;
-}
 
-body {
-    min-height: 100vh;
-    color: var(--color-text);
-    background: var(--color-background);
-    transition: color 0.5s,
-    background-color 0.5s;
-    line-height: 1.6;
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 14px;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
