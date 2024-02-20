@@ -1,17 +1,13 @@
 <template>
   <button @click="toggleTheme" class="theme-toggle">
-    <span class="moon-icon" :style="{
-      background: `url(${themeIconName}) no-repeat center center / contain`
-    }"></span>
+    <span v-if="isLight" class="icon-light"></span>
+    <span v-else class="icon-dark"></span>
     <span>Dark Mode</span>
   </button>
 </template>
 
 <script setup>
-import {computed, ref} from 'vue';
-
-import IconDarkModeOn from '@/assets/images/dark-mode-on.svg';
-import IconDarkModeOff from '@/assets/images/dark-mode-off.svg';
+import {ref, computed} from 'vue';
 
 const theme = ref('light');
 
@@ -20,9 +16,7 @@ const toggleTheme = () => {
   document.documentElement.setAttribute('data-theme', theme.value);
 };
 
-const themeIconName = computed(() => {
-  return theme.value === 'light' ? IconDarkModeOff : IconDarkModeOn;
-});
+const isLight = computed(() => theme.value === 'light');
 
 </script>
 
@@ -44,7 +38,17 @@ const themeIconName = computed(() => {
     transform: scale(0.95);
   }
 
-  .moon-icon {
+  .icon-light {
+    background: url('@/assets/images/light-moon.svg') no-repeat center center / contain;
+    margin-right: 8px; /* Space between the icon and text */
+    display: inline-block;
+
+    height: 20px;
+    width: 20px;
+  }
+
+  .icon-dark {
+    background: url('@/assets/images/dark-moon.svg') no-repeat center center / contain;
     margin-right: 8px; /* Space between the icon and text */
     display: inline-block;
 
