@@ -9,7 +9,9 @@
 import ThemeToggle from "@/components/ThemeToggle.vue";
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
+@import '@/assets/styles/mixin';
 
 .header {
   padding: 0 5%;
@@ -26,6 +28,15 @@ import ThemeToggle from "@/components/ThemeToggle.vue";
 
   display: flex;
   align-items: center;
+
+  h1 {
+    font-size: 24px;
+    font-weight: var(--font-weight-bold);
+
+    @include mobile {
+      font-size: 18px;
+    }
+  }
 }
 
 :deep(.theme-toggle) {

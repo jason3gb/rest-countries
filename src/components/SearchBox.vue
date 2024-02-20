@@ -7,7 +7,7 @@
 <script setup>
 
 import _ from 'lodash';
-import { ref } from 'vue';
+import {ref} from 'vue';
 
 const emit = defineEmits(['on-search']);
 
@@ -22,7 +22,10 @@ const debounceInput = _.debounce(onInputChange, 300);
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
+@import '@/assets/styles/mixin';
+
 .search-container {
   max-width: 680px; /* Adjust as needed */
   width: 30%;
@@ -35,7 +38,11 @@ const debounceInput = _.debounce(onInputChange, 300);
 
   box-sizing: border-box;
 
-  position:relative;
+  position: relative;
+
+  @include mobile {
+    width: 100%;
+  }
 }
 
 .search-input {
@@ -51,10 +58,10 @@ const debounceInput = _.debounce(onInputChange, 300);
   color: var(--color-tool-text);
 
   padding: 0 18px 0 32px;
-}
 
-.search-input::placeholder {
-  color: var(--color-tool-placeholder);
+  &::placeholder {
+    color: var(--color-tool-placeholder);
+  }
 }
 
 /* You might want to add ::webkit-search-cancel-button to remove clear icon in some browsers */

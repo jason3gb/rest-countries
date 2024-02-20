@@ -30,7 +30,7 @@
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
 
-import {ref, onMounted, computed} from "vue";
+import {ref, onMounted, computed, watch} from "vue";
 
 import SearchBox from "@/components/SearchBox.vue";
 import FilterBox from "@/components/FilterBox.vue";
@@ -55,6 +55,16 @@ const allCountries = ref([]);
 const countries = ref([]);
 
 const showDetailOverlay = ref(false);
+
+watch(showDetailOverlay, (newValue) => {
+  if (newValue) {
+    // When the overlay is open
+    document.body.style.overflow = 'hidden'; // Disable scrolling on the main content
+  } else {
+    // When the overlay is closed
+    document.body.style.overflow = ''; // Re-enable scrolling on the main content
+  }
+});
 
 const currentCountry = ref({...defaultCountry});
 
@@ -161,17 +171,29 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 
+@import "@/assets/styles/mixin";
+
 .main-view {
   padding: 3% 5%;
 
   box-sizing: border-box;
   position: relative;
+
+  @include mobile {
+    padding: 5%;
+  }
 }
 
 .tools {
   margin-top: var(--navbar-height);
   display: flex;
   align-items: center;
+
+  @include mobile {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
 }
 
 .country-list {
@@ -180,10 +202,21 @@ onMounted(() => {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 75px;
+
+  @include mobile {
+    margin-top: 40px;
+    gap: 40px;
+
+    padding: 0 8%;
+  }
 }
 
 :deep(.dropdown) {
   margin-left: auto;
+
+  @include mobile {
+    margin-left: 0;
+  }
 }
 
 :deep(.country-detail) {

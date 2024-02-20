@@ -6,19 +6,23 @@
     </button>
     <div class="main-section">
       <div class="flag">
-        <img :src="country.flags['png']" alt="Flag of {{ country.flags[0] }}"/>
+        <img :src="flagSrc" alt="Flag of {{ country.flags[0] }}"/>
       </div>
       <div class="info">
         <h2>{{ country.name.common }}</h2>
         <div class="country-details">
-          <span><strong>Native Name:</strong> {{ nativeName }}</span>
-          <span><strong>Top Level Domain:</strong> {{ topLevelDomain }}</span>
-          <span><strong>Population:</strong> {{ country.population }}</span>
-          <span><strong>Currencies:</strong> {{ currencies }}</span>
-          <span><strong>Region:</strong> {{ country.region }}</span>
-          <span><strong>Languages:</strong> {{ languages }}</span>
-          <span v-if="country.subregion"><strong>Sub Region:</strong> {{ country.subregion }}</span>
-          <span><strong>Capital:</strong> {{ capital }}</span>
+          <div class="detail-basic">
+            <span><strong>Native Name:</strong> {{ nativeName }}</span>
+            <span><strong>Population:</strong> {{ country.population }}</span>
+            <span><strong>Region:</strong> {{ country.region }}</span>
+            <span v-if="country.subregion"><strong>Sub Region:</strong> {{ country.subregion }}</span>
+            <span><strong>Capital:</strong> {{ capital }}</span>
+          </div>
+          <div class="detail-extra">
+            <span><strong>Top Level Domain:</strong> {{ topLevelDomain }}</span>
+            <span><strong>Currencies:</strong> {{ currencies }}</span>
+            <span><strong>Languages:</strong> {{ languages }}</span>
+          </div>
         </div>
         <div class="border-countries">
           <div class="attribute-label">Border Countries:</div>
@@ -43,6 +47,10 @@ const emits = defineEmits(
 
 // computed properties
 const flagSrc = computed(() => {
+  if (!props.country.flags || !props.country.flags['png']) {
+    return '#';
+  }
+
   return props.country.flags['png'];
 })
 
@@ -93,32 +101,32 @@ const onExit = () => {
   emits('on-exit');
 }
 
-onMounted(() => {
-  console.log('CountryDetail component mounted, country: ', props.country, 'borders: ', props.borders);
-  document.body.style.overflow = 'hidden';
-})
-
-onUnmounted(() => {
-  document.body.style.overflow = '';
-})
-
 </script>
 
 <style lang="scss" scoped>
 
+@import '@/assets/styles/mixin';
+
 .country-detail {
   background-color: var(--color-background);
-  min-height: calc(100vh - var(--navbar-height));
-  width: 100%;
 
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 1000;
+  overflow-y: auto;
+
+  height: calc(100vh - var(--navbar-height));
+  width: 100%;
 
   padding: 80px;
   box-sizing: border-box;
 
   font-weight: var(--font-weight-light);
+
+  @include mobile {
+    padding: 8%;
+  }
 
   strong {
     font-weight: var(--font-weight-semi-bold);
@@ -136,6 +144,12 @@ onUnmounted(() => {
 
     background-color: var(--color-button-color);
     color: var(--color-button-text);
+
+    box-shadow: 0 0 7px rgba(0, 0, 0, 10%);
+
+    [data-theme="dark"] & {
+      box-shadow: none;
+    }
 
     &:hover {
       cursor: pointer;
@@ -163,15 +177,26 @@ onUnmounted(() => {
     align-items: center;
     gap: 8%;
 
+    @include mobile {
+      margin-top: 60px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
     .flag {
       flex-grow: 1;
       flex-basis: 550px;
+      width: 100%;
+
+      @include mobile {
+        flex-grow: 0;
+        flex-basis: 100%;
+      }
 
       img {
         width: 100%;
-        min-height: 400px;
-        object-fit: contain;
-
+        object-fit: fill;
         border-radius: 5px;
       }
     }
@@ -180,6 +205,11 @@ onUnmounted(() => {
       flex-grow: 1;
       flex-basis: 600px;
 
+      @include mobile {
+        flex-grow: 0;
+        flex-basis: 100%;
+      }
+
       h2 {
         font-weight: var(--font-weight-bold);
       }
@@ -187,9 +217,28 @@ onUnmounted(() => {
       .country-details {
         margin-top: 5%;
 
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        column-gap: 50px;
+        display: flex;
+        gap: 5%;
+
+        .detail-basic {
+          flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+        }
+
+        .detail-extra {
+          flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+        }
+
+        @include mobile {
+          margin-top: 20px;
+          flex-direction: column;
+          gap: 30px;
+        }
       }
 
       .border-countries {
@@ -200,9 +249,18 @@ onUnmounted(() => {
 
         gap: 10px;
 
+        @include mobile {
+          margin-top: 40px;
+        }
+
         .attribute-label {
           margin-right: 6px;
           font-weight: var(--font-weight-semi-bold);
+          font-size: 16px;
+
+          @include mobile {
+            width: 100%;
+          }
         }
 
         .border-country {
